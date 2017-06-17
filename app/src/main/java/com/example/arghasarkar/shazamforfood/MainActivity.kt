@@ -39,7 +39,9 @@ class MainActivity : AppCompatActivity() {
                     startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                e.printStackTrace(System.out)
+
+                println(e.stackTrace.toString())
 
                 Toast.makeText(this, "Cannot create image file." + e.message, Toast.LENGTH_LONG).show()
 
