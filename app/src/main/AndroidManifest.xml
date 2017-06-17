@@ -15,9 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +22,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="${applicationId}.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:resource="@xml/filepaths"
+                android:name="android.support.FILE_PROVIDER_PATHS" />
+
+        </provider>
+
+
+
     </application>
 
 </manifest>
