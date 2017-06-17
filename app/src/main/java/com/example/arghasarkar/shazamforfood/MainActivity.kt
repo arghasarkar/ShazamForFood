@@ -39,7 +39,10 @@ class MainActivity : AppCompatActivity() {
                     startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
+
                 Toast.makeText(this, "Cannot create image file." + e.message, Toast.LENGTH_LONG).show()
+
             }
         }
     }
@@ -55,28 +58,32 @@ class MainActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     photoImageView.setImageBitmap(setScaledBitmap())
                 }
-
             }
             else -> {
-                Toast.makeText(this, "Unrecognised request code.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Unrecognised request code.", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     @Throws(IOException::class)
     fun createImageFile(): File {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(Date())
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US   ).format(Date())
         val imageFileName = "JPEG_" + timestamp + "_"
         val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         if (!storageDirectory.exists()) {
             // mkdirs() function used instead of mkdir() to create any parent directory that does
             // not exist.
+
             storageDirectory.mkdirs()
+        } else {
+            println("Directory exists!");
         }
 
         val imageFile = createTempFile(imageFileName, ".jpg", storageDirectory)
         imageFilePath = imageFile.absolutePath
+
+        println(imageFilePath)
 
         return imageFile
     }
