@@ -34,8 +34,11 @@ class MainActivity : AppCompatActivity() {
                 val callCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 if (callCameraIntent.resolveActivity(packageManager) != null) {
                     val authorities = packageName + ".fileprovider"
-                    //val imageUri = FileProvider.getUriForFile(this, authorities, imageFile)
+                    ///val imageUri = FileProvider.getUriForFile(this, authorities, imageFile.)
                     val imageUri = Uri.fromFile(imageFile);
+
+                    println(imageUri);
+
                     callCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
                     startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)

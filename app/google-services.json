@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "464872054734",
+    "firebase_url": "https://seefood-74b40.firebaseio.com",
+    "project_id": "seefood-74b40",
+    "storage_bucket": "seefood-74b40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464872054734:android:971ee005a9c9b60c",
+        "android_client_info": {
+          "package_name": "com.example.arghasarkar.shazamforfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464872054734-jmcp04r57ghmot164o06dbp3ct8ouikk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEwYhziBwm4agU5mLq144QZ4rDf-7lYOE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
