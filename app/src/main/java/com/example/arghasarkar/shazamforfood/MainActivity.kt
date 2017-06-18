@@ -84,6 +84,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        nameOfFood.isFocusable = false
+
+
         when(requestCode) {
             CAMERA_REQUEST_CODE -> {
 //                if (resultCode == Activity.RESULT_OK && data != null) {
@@ -137,8 +140,15 @@ class MainActivity : AppCompatActivity() {
                 .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
                 .get();
 
-        println("Result: ")
-        println(result.first());
+        println("Result: " + result.javaClass.kotlin)
+        val model = result.first().data()
+        println("Result2")
+        println(model[0].name())
+
+        // Setting details on UI
+        nameOfFood.setText("Food: " + model[0].name())
+
+
 
     }
 
