@@ -104,6 +104,10 @@ class MainActivity : AppCompatActivity() {
         return imageFile
     }
 
+    fun storeFile() {
+        val storageRef = storage.getReference()
+    }
+
     fun sanitiseKey(fileName: String) : String {
         val fileNameClean = fileName.split("/");
         val fileNameCleanAgain = fileNameClean[fileNameClean.size - 1].replace(".", "").replace("jpg", "")
