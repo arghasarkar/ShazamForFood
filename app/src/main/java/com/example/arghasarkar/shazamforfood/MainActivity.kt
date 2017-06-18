@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     @Throws(IOException::class)
     fun createImageFile(): File {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US   ).format(Date())
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timestamp + "_"
         val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -82,10 +82,8 @@ class MainActivity : AppCompatActivity() {
             println("Directory exists!");
         }
 
-        val imageFile = createTempFile(imageFileName, ".jpg", storageDirectory)
+        val imageFile = File.createTempFile(imageFileName, ".jpg", storageDirectory)
         imageFilePath = imageFile.absolutePath
-
-        println(imageFilePath)
 
         return imageFile
     }
