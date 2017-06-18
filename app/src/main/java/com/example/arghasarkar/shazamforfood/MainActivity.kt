@@ -8,6 +8,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.widget.Toast
@@ -23,6 +24,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.google.android.gms.tasks.OnSuccessListener
 import android.support.annotation.NonNull
+import clarifai2.api.ClarifaiBuilder
+import clarifai2.dto.input.ClarifaiInput
+import clarifai2.dto.input.image.ClarifaiImage
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
@@ -38,6 +42,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val policy = StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         cameraButton.setOnClickListener {
             try {
@@ -102,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         val downloadUrl = taskSnapshot.downloadUrl
                         println(downloadUrl)
+                        checkWithClarifai(downloadUrl.toString())
                     })
                 }
             }
@@ -109,6 +117,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Unrecognised request code.", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun checkWithClarifai(downloadUrl : String) {
+        val appID = "KFl7iXRRX0pFmub83mCUK5GjSMTG_D5jHT1lNw7W"
+        val appSecret = "YW_KUzY_oQxQoe5vruIoIRc16Gofb6TwNz9UUuve"
+        val client = ClarifaiBuilder(appID, appSecret).buildSync()
+
+
+// NOTE: you probably won't have to handle this. The API client automatically refreshes your access token
+// before making any network calls if it is expired
+        val token = client.token
+
+        val result = client.getDefaultModels().foodModel()// You can also do Clarifai.getModelByID("id") to get custom models
+                .predict()
+                .withInputs(
+                        ClarifaiInput.forImage(ClarifaiImage.of(downloadUrl))
+                )
+                .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
+                .get();
+
+        println("Result: ")
+        println(result.first());
+
     }
 
     @Throws(IOException::class)
