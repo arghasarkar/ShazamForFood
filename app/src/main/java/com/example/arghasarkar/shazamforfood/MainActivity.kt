@@ -153,6 +153,7 @@ class MainActivity : AppCompatActivity() {
             "wine" -> nutrition.setText("Wine (per 100ml): Protein: 0.1g Fat: 0g Carb: 2.7g Calories: 83")
             "beer" -> nutrition.setText("Beer (100g): Protein: 0.5g Fat: 0g Carb: 3.6g Calories: 36")
             "lemon" -> nutrition.setText("Lemon (1 fruit): Protein: 0.6g Fat: 0.2g Carb: 5g Calories: 17")
+            "juice" -> nutrition.setText("Juice (100g): Protein: 0.2g Fat: 0g Carbs: 13g Calories: 54")
             else -> nutrition.setText("No nutritional information found")
         }
 
