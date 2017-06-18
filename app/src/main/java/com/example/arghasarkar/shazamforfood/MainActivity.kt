@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-
+import com.google.firebase.storage.FirebaseStorage
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,8 +45,9 @@ class MainActivity : AppCompatActivity() {
                     // Write a message to the database
                     val database = FirebaseDatabase.getInstance()
                     val myRef = database.getReference(fileNameCleanAgain.toString())
-
                     myRef.setValue(imageUri.toString())
+
+                    storeFile("file" + fileNameCleanAgain.toString(), imageUri)
 
                     callCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
@@ -104,8 +105,12 @@ class MainActivity : AppCompatActivity() {
         return imageFile
     }
 
-    fun storeFile() {
-        val storageRef = storage.getReference()
+    fun storeFile(key: String, fileUri : Uri) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.getReference(key)
+
+        val uploadTask = storageRef.putFile(fileUri)
+
     }
 
     fun sanitiseKey(fileName: String) : String {
