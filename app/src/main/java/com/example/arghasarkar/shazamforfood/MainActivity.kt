@@ -17,6 +17,10 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,12 +40,19 @@ class MainActivity : AppCompatActivity() {
                     val authorities = packageName + ".fileprovider"
                     ///val imageUri = FileProvider.getUriForFile(this, authorities, imageFile.)
                     val imageUri = Uri.fromFile(imageFile);
+                    val fileNameCleanAgain = sanitiseKey(imageUri.toString())
 
-                    println(imageUri);
+                    // Write a message to the database
+                    val database = FirebaseDatabase.getInstance()
+                    val myRef = database.getReference(fileNameCleanAgain.toString())
+
+                    myRef.setValue(imageUri.toString())
 
                     callCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
                     startActivityForResult(callCameraIntent, CAMERA_REQUEST_CODE)
+
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace(System.out)
@@ -91,6 +102,13 @@ class MainActivity : AppCompatActivity() {
         imageFilePath = imageFile.absolutePath
 
         return imageFile
+    }
+
+    fun sanitiseKey(fileName: String) : String {
+        val fileNameClean = fileName.split("/");
+        val fileNameCleanAgain = fileNameClean[fileNameClean.size - 1].replace(".", "").replace("jpg", "")
+
+        return fileNameCleanAgain
     }
 
     fun setScaledBitmap(): Bitmap {
