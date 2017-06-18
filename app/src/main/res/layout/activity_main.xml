@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/photoImageView"
-        android:layout_width="356dp"
-        android:layout_height="422dp"
+        android:layout_width="341dp"
+        android:layout_height="362dp"
         android:contentDescription="View for displaying image"
         app:srcCompat="@android:color/darker_gray"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +21,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/cameraButton"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="15dp" />
+        app:layout_constraintHorizontal_bias="0.58" />
 
     <Button
         android:id="@+id/cameraButton"
@@ -35,5 +35,19 @@
         app:layout_constraintHorizontal_bias="0.456"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="346dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Protein: 0g, Fat: 15g, Carbs: 20g"
+        app:layout_constraintBottom_toTopOf="@+id/cameraButton"
+        app:layout_constraintTop_toBottomOf="@+id/photoImageView"
+        app:layout_constraintVertical_bias="0.333"
+        tools:layout_editor_absoluteX="19dp" />
 
 </android.support.constraint.ConstraintLayout>

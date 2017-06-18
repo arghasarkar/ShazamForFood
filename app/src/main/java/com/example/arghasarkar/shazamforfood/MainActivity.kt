@@ -20,12 +20,20 @@ import java.util.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.google.android.gms.tasks.OnSuccessListener
+import android.support.annotation.NonNull
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.firebase.storage.StorageReference
+import java.io.ByteArrayOutputStream
 
 
 class MainActivity : AppCompatActivity() {
 
     val CAMERA_REQUEST_CODE = 0
     lateinit var imageFilePath : String
+
+    lateinit var bitmapImage : Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     val myRef = database.getReference(fileNameCleanAgain.toString())
                     myRef.setValue(imageUri.toString())
 
-                    storeFile("file" + fileNameCleanAgain.toString(), imageUri)
+                    storeFile(fileNameCleanAgain.toString() + ".jpg", imageUri)
 
                     callCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
@@ -75,7 +83,26 @@ class MainActivity : AppCompatActivity() {
 //                    photoImageView.setImageBitmap(data.extras.get("data") as Bitmap)
 //                }
                 if (resultCode == Activity.RESULT_OK) {
-                    photoImageView.setImageBitmap(setScaledBitmap())
+                    bitmapImage = setScaledBitmap()
+                    photoImageView.setImageBitmap(bitmapImage)
+
+                    val baos = ByteArrayOutputStream()
+                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val data = baos.toByteArray()
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.getReference()
+                    // Create a reference to "mountains.jpg"
+                    val mountainsRef = storageRef.child("mountains.jpg")
+                    // Create a reference to 'images/mountains.jpg'
+                    val mountainImagesRef = storageRef.child("images/mountains.jpg")
+                    val uploadTask = mountainsRef.putBytes(data)
+                    uploadTask.addOnFailureListener(OnFailureListener {
+                        // Handle unsuccessful uploads
+                    }).addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        val downloadUrl = taskSnapshot.downloadUrl
+                        println(downloadUrl)
+                    })
                 }
             }
             else -> {
@@ -110,6 +137,13 @@ class MainActivity : AppCompatActivity() {
         val storageRef = storage.getReference(key)
 
         val uploadTask = storageRef.putFile(fileUri)
+
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+            val downloadUrl = taskSnapshot.downloadUrl
+        }
 
     }
 
