@@ -46,6 +46,9 @@ class MainActivity : AppCompatActivity() {
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        nameOfFood.isFocusable = false
+        nutrition.isFocusable = false
+
         cameraButton.setOnClickListener {
             try {
                 val imageFile = createImageFile()
@@ -83,9 +86,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        nameOfFood.isFocusable = false
-
 
         when(requestCode) {
             CAMERA_REQUEST_CODE -> {
@@ -140,15 +140,21 @@ class MainActivity : AppCompatActivity() {
                 .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
                 .get();
 
-        println("Result: " + result.javaClass.kotlin)
-        val model = result.first().data()
-        println("Result2")
-        println(model[0].name())
+        val data = result.first().data()
+        val foodName = data[0].name()
+        println("Food name")
+        println(foodName)
 
         // Setting details on UI
-        nameOfFood.setText("Food: " + model[0].name())
+        nameOfFood.setText("Food: ${foodName}")
 
-
+        when (foodName) {
+            "coffee" -> nutrition.setText("Coffee (per 100ml): Protein: 0.1g Fat: 0g Carb: 0g Calories: 0")
+            "wine" -> nutrition.setText("Wine (per 100ml): Protein: 0.1g Fat: 0g Carb: 2.7g Calories: 83")
+            "beer" -> nutrition.setText("Beer (100g): Protein: 0.5g Fat: 0g Carb: 3.6g Calories: 36")
+            "lemon" -> nutrition.setText("Lemon (1 fruit): Protein: 0.6g Fat: 0.2g Carb: 5g Calories: 17")
+            else -> nutrition.setText("No nutritional information found")
+        }
 
     }
 

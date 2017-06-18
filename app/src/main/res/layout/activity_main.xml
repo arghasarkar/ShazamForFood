@@ -40,25 +40,26 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
-        android:layout_width="281dp"
-        android:layout_height="41dp"
+        android:id="@+id/nutrition"
+        android:layout_width="343dp"
+        android:layout_height="69dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:editable="false"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:singleLine="false"
         android:text="Nutritional values"
+        android:inputType="textMultiLine"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/cameraButton"
         app:layout_constraintTop_toBottomOf="@+id/photoImageView"
-        app:layout_constraintVertical_bias="0.608"
-        tools:layout_editor_absoluteX="16dp"
-        android:editable="false"
+        app:layout_constraintVertical_bias="0.637"
+        tools:layout_editor_absoluteX="21dp"
+        android:background="@android:color/transparent"
         />
 
     <EditText
         android:id="@+id/nameOfFood"
-        android:layout_width="345dp"
-        android:layout_height="41dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:editable="false"
@@ -68,9 +69,16 @@
         android:text="Name of food"
         app:layout_constraintBottom_toTopOf="@+id/cameraButton"
         app:layout_constraintTop_toBottomOf="@+id/photoImageView"
-        app:layout_constraintVertical_bias="0.072"
+        app:layout_constraintVertical_bias="0.01"
         tools:editable="false"
-        tools:layout_editor_absoluteX="22dp"
+        tools:layout_editor_absoluteX="20dp"
+        android:lines="4"
+        android:minLines="4"
+        android:scrollbars="vertical"
+        android:layout_height="43dp"
+        android:layout_width="345dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
         />
 
 </android.support.constraint.ConstraintLayout>
